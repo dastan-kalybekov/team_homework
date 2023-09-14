@@ -15,10 +15,10 @@ class UserSerializer(serializers.ModelSerializer):
         if len(attrs['password']) < 10:
             raise serializers.ValidationError('длина пароля должна быть не менее 10 символов')
         if not any(c.isdigit()
-                for c in attrs['password']):
+                   for c in attrs['password']):
             raise serializers.ValidationError('пароль должен содержать минимум 1 цифру')
         if not any(c.isalpha()
-                for c in attrs['password']):
+                   for c in attrs['password']):
             raise serializers.ValidationError('пароль должен содержать минимум 1 букву')
         return attrs
 

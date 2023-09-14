@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, ListAPIView, CreateAPIView
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from .models import Post, Comment, Rating
-from .serializer import
+from .serializers import PostSerializer
 
-class Post(ListCreateAPIView):
+class PostList(ListAPIView):
     queryset = Post.objects.all()
-    serializer_class =
-    permission_classes = []
+    serializer_class = PostSerializer
+    permission_classes = [AllowAny]
+    authentication_classes = [TokenAuthentication]
+
