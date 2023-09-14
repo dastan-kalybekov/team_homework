@@ -10,23 +10,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'telegram_chat_id']
-    #
-    # def validate_password(self, attrs):
-    #     if len(attrs['password']) < 10:
-    #         raise serializers.ValidationError('длина пароля должна быть не менее 10 символов')
-    #     if not any(c.isdigit()
-    #                for c in attrs['password']):
-    #         raise serializers.ValidationError('пароль должен содержать минимум 1 цифру')
-    #     if not any(c.isalpha()
-    #                for c in attrs['password']):
-    #         raise serializers.ValidationError('пароль должен содержать минимум 1 букву')
-    #     return attrs
 
     def create(self, validated_data):
         user = User(
             username=validated_data['username'],
+            telegram_chat_id=validated_data['telegram_chat_id']
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
-

@@ -11,7 +11,7 @@ from .serializers import UserSerializer
 
 @api_view(http_method_names=['GET', 'POST'])
 @authentication_classes(authentication_classes=[TokenAuthentication])
-@permission_classes([IsAdminUser, AllowAny])
+@permission_classes([AllowAny])
 def user_list_api_view(request):
     if request.method == 'GET' and request.user.is_staff:
         users = User.objects.all()
