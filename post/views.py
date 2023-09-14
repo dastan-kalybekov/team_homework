@@ -13,7 +13,7 @@ from .permissions import Permissions
 from .serializers import PostSerializer, CommentSerializer, RatingSerializer
 
 
-class PostListCreate(ListCreateAPIView):
+class PostListCreateApiView(ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -50,7 +50,7 @@ class PostRetrieveUpdateDestroyApiView(RetrieveUpdateDestroyAPIView):
         serializer.save(user=self.request.user)
 
 
-class CommentListCreate(ListCreateAPIView):
+class CommentListCreateApiView(ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [AllowAny]
