@@ -36,7 +36,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     text = models.CharField(max_length=250)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -65,7 +65,7 @@ class Rating(models.Model):
 @receiver(post_save, sender=Post)
 def send_notification(sender, instance, **kwargs):
     if kwargs.get('created'):
-        message = f"Твит с названием {instance.title} и текстом {instance.body} успешно создан, пользователь {instance.user.username}"
+        message = f"Твит с названием {instance.title} и текстом {instance.text} успешно создан, пользователь {instance.user.username}"
         bot.send_message(chat_id=instance.user.telegram_chat_id, text=message, parse_mode='html')
 
     if __name__ == '__main__':
