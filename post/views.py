@@ -6,6 +6,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly, BasePermission, SAFE_METHODS
 from rest_framework.response import Response
 
+from .business_logic.telebot import telegram_bot_send_text
 from .models import Post, Comment, Rating
 from .permissions import Permissions
 from .serializers import PostSerializer, CommentSerializer, RatingSerializer
@@ -18,6 +19,9 @@ class PostListCreateApiView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
 
     def perform_create(self, serializer):
+        message = f"Твит с названием {self.request.data['title']} и текстом {self.request.data['text']} успешно создан, пользователь {self.request.user.username}"
+        telegram_chat_id = self.request.user.telegram_chat_id
+        telegram_bot_send_text(message, telegram_chat_id)
         serializer.save(user=self.request.user)
 
 

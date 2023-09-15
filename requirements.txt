@@ -1,4 +1,7 @@
+
 django==4.2
-djangorestframework
+
+djangorestframework==3.14.0
 Pillow
-pyTelegramBotAPI
+
+requests==2.31.0
