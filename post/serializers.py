@@ -1,4 +1,6 @@
+from django.db import IntegrityError
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from .models import Post, Rating, Comment
 
@@ -21,7 +23,6 @@ class PostSerializer(serializers.ModelSerializer):
         return 0
 
 
-
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
@@ -34,3 +35,12 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = "__all__"
         read_only_fields = ['user']
+
+    def create(self, validated_data):
+        rating = Rating(**validated_data)
+        try:
+            rating.save()
+        except IntegrityError:
+            raise ValidationError('Невозможно сохранить. Вы пытаетесь поставить рейтинг, к этому посту еще раз !')
+        else:
+            return rating
